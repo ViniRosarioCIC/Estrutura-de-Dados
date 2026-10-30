@@ -1,68 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "intervalo.h"
+#include "estacionamento.h" // Importa o nosso módulo
 
-int main (){
+int main() {
+    Veiculo *lista_veiculos = NULL; 
+    int total_veiculos = 0;
+    int opcao;
 
+    do {
+        // Menu de opções[cite: 2]
+        printf("\n=====================================\n");
+        printf("       CONTROLE DE ESTACIONAMENTO    \n");
+        printf("=====================================\n");
+        printf("1. Registrar Veiculo\n");
+        printf("2. Listar Veiculos\n");
+        printf("3. Buscar Veiculo pela Placa\n");
+        printf("4. Remover Veiculo pela Placa\n");
+        printf("5. Sair\n");
+        printf("Escolha uma opcao: ");
 
-int opcao;
-int total_intervalos = 0;
-Intervalo *lista_intervalos = NULL;
+        if (scanf("%d", &opcao) != 1) {
+            printf("\nEntrada invalida! Encerrando o sistema...\n");
+            // Limpeza de buffer de segurança antes de sair
+            while(getchar() != '\n'); 
+            break;
+        }
 
-do {
+        switch (opcao) {
+            case 1:
+                registrar_veiculo(&lista_veiculos, &total_veiculos);
+                break;
+            case 2:
+                listar_veiculos(lista_veiculos, total_veiculos);
+                break;
+            case 3:
+                buscar_veiculo(lista_veiculos, total_veiculos);
+                break;
+            case 4:
+                remover_veiculo(&lista_veiculos, &total_veiculos);
+                break;
+            case 5:
+                printf("\nEncerrando a aplicacao...\n");
+                break;
+            default:
+                printf("\nOpcao invalida. Tente novamente.\n");
+        }
+    } while (opcao != 5);
 
-    printf("\n====================");
-    printf("\n\tMENU");
-    printf("\n====================");
-
-    printf("\n1 - Adicionar Intervalo");
-    printf("\n2 - Verificar Ponto");
-    printf("\n0 - Sair");
-
-    printf("\n\nDigite uma opcao: ");
-    while(scanf("%d", &opcao) != 1){
-        printf("Erro! Digite uma opcao valida: ");
-
-            while(getchar() != '\n');
+    // Limpeza da memória alocada dinamicamente ao sair
+    if (lista_veiculos != NULL) {
+        free(lista_veiculos);
+        printf("Memoria liberada com sucesso.\n");
     }
-
-    switch(opcao){
-
-        case 1: {
-            int inicio, fim;
-            printf("\nDigite um valor para o inicio do intervalo: ");
-            scanf("%d", &inicio);
-            printf("\n\nDigite um valor para o fim do intervalo: ");
-            scanf("%d", &fim);
-            adicionar_intervalo(&lista_intervalos, &total_intervalos, inicio, fim);
-
-
-        } break;
-        
-        
-        case 2: {
-            int ponto;
-            printf("\nDigite um ponto para começar a busca: ");
-            scanf("%d", &ponto);
-            verificar_ponto(lista_intervalos, total_intervalos, ponto);
-            
-        } break;
-
-        case 0: {
-            printf("\nFinalizando programa...\n");
-        } break;
-
-        default: {
-            printf("\nOpcao invalida! Selecione uma opcao correta: \n");
-
-        } break;
-            
-    }
-
-
-} while(opcao != 0);
-
-    free(lista_intervalos);
 
     return 0;
 }
