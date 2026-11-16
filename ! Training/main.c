@@ -1,25 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "espelhado.h"
+#include "product.h"
 
 int main (){
 
-    int N;
-    printf("Digite a quantidade de numeros do conjunto: \n");
-    scanf("%d", &N);
+    printf("========== PRODUCT REGISTRATION ===========\n");
+    int q_products = 0;
+    printf("Enter the number of products to be registered:  ");
+    scanf("%d", &q_products);
 
-    int *vetor = malloc(sizeof(int) * N);
+    Product *vector = NULL;
+    
+    allocate_vector (&vector, q_products);
 
-    for (int i = 0; i < N; i++){
-        printf("Digite um numero: \n");
-        scanf("%d", &vetor[i]);
+    read_data (vector, q_products);
 
-    }
+    display_products(vector, q_products);
 
-    int qEspelhados = verifica_espelhados(vetor, N);
+    free(vector);
 
-    printf("Quantidade de espelhados: %d", qEspelhados);
-
-    free(vetor);
     return 0;
 }
